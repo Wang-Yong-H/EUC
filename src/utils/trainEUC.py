@@ -62,7 +62,7 @@ def train1(args):
             model = DDP(model)
         else:
             model = DDP(model, device_ids=[args.rank], output_device=args.rank)
-    #不用管：   
+ 
     if args.swa is not None:
         if args.resume is None or start_epoch <= args.swa_start:
             swa_model = fetch_model(**fargs).to(args.device)
@@ -415,7 +415,7 @@ def get_input_grad(model, X, y, eps, delta_init='none', backprop=False):
         raise ValueError('wrong delta init')
 
     output = model(X + delta)  
-    loss_per_sample = Loss(output, y)  # 注意这里只传入 output 和 y  
+    loss_per_sample = Loss(output, y) 
     loss = loss_per_sample.mean()  # 计算平均损失  
   
     grad = tc.autograd.grad(loss, delta, create_graph=True if backprop else False)[0]  
@@ -591,7 +591,7 @@ class SIRI_Dataset(Dataset):
             raise IndexError("list index out of range")
         path, target = self.samples[idx]
         image = tiff.imread(path).transpose([1, 2, 0])  # 使用tifffile库读取.tif文件，并转置通道
-        image = Image.fromarray(image)  # 将numpy数组转换为PIL图像
+        image = Image.fromarray(image)  #
         if self.transform:
             image = self.transform(image)
         return image, target
@@ -641,7 +641,6 @@ class NWPU_RESISC45(Dataset):
             self.classes = [cls for cls in self.classes if os.path.isdir(os.path.join(root_dir, cls))]  
             self.class_to_idx = {cls_name: i for i, cls_name in enumerate(self.classes)}  
         else:  
-            # 对于测试集，你可能需要另外处理，因为测试集的结构可能与训练集不同  
             # 这里我们假设测试集也是类似的结构  
             self.class_to_idx = {cls_name: i for i, cls_name in enumerate(self.classes)}  
           
@@ -721,8 +720,6 @@ class RS_images_2800(Dataset):
             self.classes = [cls for cls in self.classes if os.path.isdir(os.path.join(root_dir, cls))]  
             self.class_to_idx = {cls_name: i for i, cls_name in enumerate(self.classes)}  
         else:  
-            # 对于测试集，你可能需要另外处理，因为测试集的结构可能与训练集不同  
-            # 这里我们假设测试集也是类似的结构  
             self.class_to_idx = {cls_name: i for i, cls_name in enumerate(self.classes)}  
           
         # 构建样本和标签的列表  
