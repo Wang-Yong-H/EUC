@@ -1,9 +1,14 @@
-# Data Augmentation Alone Can Improve Adversarial Training
-This repository contains the code of data augmentation algorithms, **Cropshift** and **IDBH**, and pre-trained models from the paper "[Data Augmentation Alone Can Improve Adversarial Training](https://openreview.net/forum?id=y4uc4NtTWaq)" published at ICLR 2023.
+# On Adversarial Robust Generalization of DNNs for Remote Sensing Image Classification
+
+This repository contains the code of data algorithms,
 
 # Pre-trained Models
 
 Please find the pre-trained models through this OneDrive [sharepoint.](https://emckclac-my.sharepoint.com/:f:/g/personal/k19010102_kcl_ac_uk/EnVH6skz4q1FoamAcrPRkdgBpNEDkpL9cSIgttJDjKs1AQ)
+ and pre-trained models from the (https://openreview.net/forum?id=y4uc4NtTWaq)" published at ICLR 2023.
+
+We validate the effectiveness and feasibility of our method through extensive experiments on two commonly used remote sensing image classification datasets NWPU-RESSC45, RSSCN7,
+and WHU-RS19, demonstrating its superiority over previous methods, particularly in the context of improving the adversarial robust generalization of DNNs. Index Terms—Remote sensing ima
 
 # Files
 
@@ -51,50 +56,21 @@ To prepare the involved dataset, an optional parameter `--download` should be sp
 
 python src/train.py -a paresnet --depth 18 -d WHU
 
-python src/train.py -a wresnet --depth 34 -d WHU
-
-python src/train.py -a paresnet --depth 18 -d NWPU --max_iter 1
-
-python src/train.py -a paresnet --depth 18 -d NWPU --max_iter 1
-
-python src/train.py -a paresnet --depth 18 -d NWPU --max_iter 1 --swa 0 0.001 1
-
-python src/train.py -a wresnet --depth 34 -d RSSCN7 --max_iter 1 --swa 0 0.001 1
-python src/train.py -a wresnet --depth 34 -d NWPU --max_iter 1 --swa 0 0.001 1
-
-之后SWA在两个模型上的SWA的RSSCN7，考虑NWPU18要不要方案一？
-(FGSM攻击)
-NWPU的和RSSCN7的34（ours）跑完了，正跑RSSCN718的对比
-还需要RSSCn7在34（原型swa），NWpu34（原型）跑。
+python src/train.py -a wresnet --depth 34 -d NWPU
 
 
-python src/train.py -a wresnet --depth 34 -d WHU --swa 0 0.001 1
-
-
+# To train a Wide  PreAct ResNet18 on  RSSCN7 using PGD10 with PGD , run:
 python src/train.py -a paresnet --depth 18 -d RSSCN7
 
-python src/train.py -a wresnet --depth 34 -d RSSCN7
+# To train a Wide  PreAct ResNet18 on  WHU-RS19
+python src/train.py -a wresnet --depth 34 -d WHU
 
-python src/train.py -a paresnet --depth 18 -d RSSCN7 --swa 0 0.001 1
+# To train a Wide ResNet34-10 on  RSSCN7 using PGD10 with SWA , run:
+
 
 python src/train.py -a wresnet --depth 34 -d RSSCN7 --swa 0 0.001 1
 
-python src/train.py -a wresnet --depth 34 -d RSSCN7 --max_iter 1
 
-##
-出现问题：
-第一FGSM——RSSCN734和SWA出现IG值大幅度爆炸
-
-To train a PreAct ResNet18 on CIFAR10 using PGD10 with IDBH-strong, run:
-
-```python
-python src/train.py -a paresnet --depth 18 --max_iter 10 --idbh cifar10-strong
-```
-
-To train a Wide ResNet34-10 on CIFAR10 using PGD10 with IDBH-weak and SWA , run:
-
-```python
-python src/train.py --depth 34 --width 10 --max_iter 10 --idbh cifar10-weak --swa 0 0.001 1
 ```
 
 Please refer to the specific configuration file for the details of hyperparameters. Particularly, `--swa 0 0.001 1` means that SWA begins from the 0th epoch, the decay weight is 0.001, and models are averaged every 1 iteration.
